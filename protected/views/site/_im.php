@@ -10,9 +10,12 @@
 	<h3><?php echo round( $inwords ); ?></h3>
 </div>
 
-<div class="vote-button">
-	<?php echo CHtml::ajaxLink( 'VOTE', $this->createUrl( 'site/vote', array( 'param' => 'm' ) ), array( 'success' => 'function(data){ jQuery(".vote-button").hide();jQuery(".percentage").show();}' ), array( 'class' => 'vote' ) ); ?>
-</div>
-<div class="percentage">
-	<?php echo Vote::model()->count() ? round( sizeof( Vote::model()->findAll( 'vote="m"' ) ) / Vote::model()->count() * 100 ) . '%' : 0; ?>
+<?php if( ! isset($_COOKIE['alivsmvoted'] ) ) : ?>
+	<div class="vote-button">
+		<?php echo CHtml::ajaxLink( (isset($_GET['lang']) && $_GET['lang'] == 'hun' ) ? 'SZAVAZOK' : 'VOTE', $this->createUrl( 'site/vote', array( 'param' => 'm' ) ), array( 'success' => 'function(data){ jQuery(".vote-button").hide();jQuery(".percentage").show();}' ), array( 'class' => 'vote' ) ); ?>
+	</div>
+<?php endif; ?>
+
+<div class="percentage<?php echo isset( $_COOKIE['alivsmvoted'] ) ? ' blocky' : ''; ?>">
+	<?php echo Vote::model()->count() ? round( sizeof( Vote::model()->findAll( 'vote="m"' ) ) / Vote::model()->count() * 100 ) : 50; ?>%
 </div>

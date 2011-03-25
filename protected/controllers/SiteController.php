@@ -35,9 +35,20 @@ class SiteController extends Controller
 		// using the default layout 'protected/views/layouts/main.php'
 		$this->content_left = $this->renderPartial( '_ali', null, true );
 		$this->content_right= $this->renderPartial( '_im', null, true );
-		$this->intro = <<<ENG
-This all comes down to this. As you probably all know by now, Alison and I are <a href="http://en.wikipedia.org/wiki/Infant" target="blank">having a baby</a>. As probably most of you know, I'm also having a <a href="http://en.wikipedia.org/wiki/Kidney_stone" target="_blank">kidney stone</a>. In fact, I'm having 2 kidney stones. And this is where you come into the picture. We would like you to vote on who is getting the "<i>stuff</i>" out first. The number indicates the days since we figured it out.<br />See the stats on the bottom and <strong>V O T E</strong>! 
+
+		if( isset($_GET['lang']) && $_GET['lang'] == 'hun' )
+		{
+			$this->intro = <<<HUN
+Na kéremszépen. Mint a legtöbben tudjátok, Alisonnal <a href="http://en.wikipedia.org/wiki/Infant" target="_blank">kisbabát</a> várunk. Remélem azt is sokan tudjátok, hogy én pedig <a href="http://en.wikipedia.org/wiki/Kidney_stone" target="_blank">vesekővel</a> küszködöm. Nem is eggyel, kettővel. Na és itt jöttök ti, a család, a képbe. Alább lehet látni az eltelt napok számát, és arra kérnénk benneteket, hogy szavazzatok, melyikünknek sikerül hamarabb megszülni. <br />Köszi.
+HUN;
+		}
+		else
+		{
+			$this->intro = <<<ENG
+It all comes down to this. As most of you probably know by now, Alison and I are <a href="http://en.wikipedia.org/wiki/Infant" target="blank">having a baby</a>. As most of you probably know, I'm also having a <a href="http://en.wikipedia.org/wiki/Kidney_stone" target="_blank">kidney stone</a>. In fact, I'm having 2 kidney stones. And this is where you come into the picture. We would like you to vote on who is getting the "<i>stuff</i>" out first.<br /> The number indicates the days since we found out about them.<br />See the stats on the bottom and <strong>V O T E</strong>! 
 ENG;
+		}
+
 		$this->render(
 			'index', 
 			array( 
@@ -133,6 +144,9 @@ ENG;
 						break; 
 						
 		}
+
+		setcookie("alivsmvoted", "1", time()+2592000);
+
 		die( 'success' );
 	}
 }

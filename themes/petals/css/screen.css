@@ -270,3 +270,8 @@ hr.space {background:#fff;color:#fff;visibility:hidden;}
 	color: #fff;
 	display:none;
 }
+
+.blocky
+{
+	display: block;
+}
